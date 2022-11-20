@@ -1,10 +1,10 @@
 # Instrucciones para realizar la práctica denominada "Construcción de un mapa de diversidad de Sierra Nevada"
 
 
-> + **_Versión_**: 2020-2021
-> + **_Asignatura (grado)_**: Ecología I (Biología). Curso 2020-2021
-> + **_Autor_**: Curro Bonet-García (fjbonet@uco.es)
-> + **_Duración_**: tres sesiones de 3 horas cada una.
+> + **_Versión_**: 2022-2023
+> + **_Asignatura (grado)_**: Ecología I (Biología). 
+> + **_Autor_**: Curro Bonet-García (fjbonet@uco.es); Jordi Tobajas (sc2togoj@uco.es).
+> + **_Duración_**: dos sesiones de 2 horas cada una.
 
 
 
@@ -17,12 +17,11 @@ Esta práctica tiene los siguientes objetivos:
   + Aprender a generar mapas de diversidad biológica. Mapas de distribución del índice de Shannon.
   + Reconocer patrones de distribución de la diversidad en un territorio concreto (Sierra Nevada).
   + Identificar las causas de los patrones anteriores.
-  + Reconocer el efecto que tiene la escala espacial en los patrones de distribución de la biodiversidad. Aprender las diferencias entre diversidad alfa y diversidad gamma.
   
 + Instrumentales:
 
   + Afianzar nuestro conocimiento de SIG.
-  + Mejorar nuestro conocimiento de R.
+  + Dar vuestros primeros pasos programando con R.
   + Aprender algunos conceptos básicos de las bases de datos relacionales.  
   
    
@@ -34,15 +33,14 @@ Como sabemos, la cantidad de especies que hay en una comunidad ecológica es imp
 
 La diversidad biológica se distribuye por la Tierra según una serie de patrones espaciales que vimos en las sesiones teóricas correspondientes. Dichos patrones ponen de manifiesto cómo se comporta la diversidad frente a ciertos factores ambientales. Por ejemplo:
 
-+ Hay un patrón de distribución de la diversidad en función de la latitud. En el Ecuador hay más diversidad que en los polos. 
 + Heterogeneidad ambiental. Se ha comprobado que los lugares más heterogéneos desde un punto de vista ambiental (más cambios en las condiciones climáticas, por ejemplo), albergan más diversidad.
 + Dureza ambiental. En multitud de ocasiones se ha comprobado que los lugares sometidos a más perturbaciones o más fuentes de estrés, tienen menos diversidad biológica.
 
-En **esta carpeta hay varios artículos que describen**  con detalle estos patrones y algunos más. 
+En [esta](https://github.com/aprendiendo-cosas/P_Shannon_ecologia_I_bio/tree/2022-2023/bibliografia) carpeta hay varios artículos que describen  con detalle estos patrones y algunos más. 
 
 
 
-La siguiente presentación muestra los conceptos básicos necesarios para hacer la práctica. También puedes verla [aquí](https://prezi.com/p/zphobtzmub50/?present=1) y descargarla [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/1_mapa_biodiv_shannon.exe) para Windows y [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/1_mapa_biodiv_shannon.zip) para Mac. Y [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/1_mapa_biodiv_shannon.pdf) la tienes en formato pdf.
+La siguiente presentación muestra los conceptos básicos necesarios para hacer la práctica. También puedes verla [aquí](https://prezi.com/p/zphobtzmub50/?present=1) y descargarla [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ecologia_I_bio/raw/2022-2023/presentacion/practica_mapa_biodiversidad_R.exe) para Windows y [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ecologia_I_bio/raw/2022-2023/presentacion/practica_mapa_biodiversidad_R.zip) para Mac. 
 
 
 
@@ -54,88 +52,118 @@ La siguiente presentación muestra los conceptos básicos necesarios para hacer 
 ## Metodología y flujo de trabajo
 
 Como se puede observar en la presentación anterior, para calcular la diversidad de una comunidad, necesitamos dos fuentes de información:
-+ Información de distribución de especies en la zona de estudio (Sierra Nevada). Es el primer paso fundamental porque necesitamos esta información para calcular el índice de Shannon. Para conseguir datos de presencia de especies en Sierra Nevada usaremos una infraestructura digital denominada [GBIF](https://www.gbif.org/) (Global Biodiversity Information Facility). Se trata de un portal desde el que se tiene acceso a millones de datos de presencia de especies procedentes de colecciones biológicas (herbarios, colecciones animales, etc.) de todo el planeta. Esta iniciativa está promovida y mantenida por multitud de países que han puesto en común toda la información de la que disponen para conocer mejor la distribución de la biodiversidad en la Tierra. Accederemos a este portal y descargaremos toda la información de presencia de especies en Sierra Nevada. Esto nos dará una idea bastante aproximada de cómo se distribuye la diversida en esta zona. En nuestro caso, GBIF aporta una enorme cantidad de registros de presencia de especies en Sierra Nevada. Durante la práctica visitamos el portal de GBIF y simulamos la descarga. Como este proceso puede tardar unas horas, utilizamos datos que fueron descargados anteriormente por el profesor. Dichos datos de presencia de especies tienen el siguiente "aspecto" cuando son visualizados en QGIS. [Aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/geoinfo/csv_gbif_sierra_nevada.zip) puedes descargar la capa con los datos de presencia de especies de Sierra Nevada. Como ves más abajo, son unos cuantos miles de puntos...
++ Información de distribución de especies en la zona de estudio (Sierra Nevada). Es el primer paso fundamental porque necesitamos esta información para calcular el índice de Shannon. Para conseguir datos de presencia de especies en Sierra Nevada usaremos una infraestructura digital denominada [GBIF](https://www.gbif.org/) (Global Biodiversity Information Facility). Se trata de un portal desde el que se tiene acceso a millones de datos de presencia de especies procedentes de colecciones biológicas (herbarios, colecciones animales, etc.) de todo el planeta. Esta iniciativa está promovida y mantenida por multitud de países que han puesto en común toda la información de la que disponen para conocer mejor la distribución de la biodiversidad en la Tierra.  [Aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/geoinfo/ocurrencias_sierra_nevada_23030.zip) puedes descargar la capa con los datos de presencia de especies de Sierra Nevada. Cada punto representa la presencia de un individuo de una especie determinada. Los datos se han obtenido a partir de colecciones biológicas y trabajos de muestreo de campo. Como ves más abajo, son unos cuantos miles de puntos...
 
-![puntos](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/imagenes/puntos.png)
+![puntos](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/imagenes/puntos.png)
 
 
 
-+ Distribución de las comunidades ecológicas que conforman Sierra Nevada. Este paso es el más complejo conceptualmente, ya que las comunidades no tienen un límite espacial preciso. Es decir, están conectadas entre sí y no es fácil delimitar donde empieza una y acaba otra. Usaremos un mapa de vegetación para delimitar las comunidades de Sierra Nevada. Asumiremos que cada polígono de dicho mapa es una comunidad ecológica. [Aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/geoinfo/vegetacion_snevada_23030.zip) puedes descargar el mapa de comunidades que usaremos en esta práctica. El enlace anterior contiene un fichero de formas con la delimitación de los polígonos del mapa de vegetación a escala 1:10.000. La siguiente figura muestra la delimitación de estas comunidades en Sierra Nevada. Aunque el mapa no tiene escala, podrás reconocer el contorno del espacio protegido de Sierra Nevada.
++ Distribución de las comunidades ecológicas que conforman Sierra Nevada. Este paso es el más complejo conceptualmente, ya que las comunidades no tienen un límite espacial preciso. Es decir, están conectadas entre sí y no es fácil delimitar donde empieza una y acaba otra. Usaremos un mapa de vegetación para delimitar las comunidades de Sierra Nevada. Asumiremos que cada polígono de dicho mapa es una comunidad ecológica. [Aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/geoinfo/vegetacion_snevada_23030.zip) puedes descargar el mapa de comunidades que usaremos en esta práctica. El enlace anterior contiene un fichero de formas con la delimitación de los polígonos del mapa de vegetación a escala 1:10.000. La siguiente figura muestra la delimitación de estas comunidades en Sierra Nevada. Aunque el mapa no tiene escala, podrás reconocer el contorno del espacio protegido de Sierra Nevada.
 
-![comunidades](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/imagenes/comunidades.png)
+![comunidades](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/imagenes/comunidades.png)
 
 
 
 A partir de estas dos fuentes de datos obtendremos el índice de Shannon para cada una de las comunidades de Sierra Nevada. Es decir, usaremos los datos de presencia de cada especie que hay en cada una de las comunidades para calcular su índice de Shannon. En la siguiente figura puedes ver la distribución de ocurrencias de especies en unas cuantas comunidades.
 
-![puntos_comunidades](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/imagenes/puntos_sobre_comunidades.png)
+![puntos_comunidades](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/imagenes/puntos_sobre_comunidades.png)
 
 
 
-Para ello seguiremos los pasos que se muestran en el siguiente flujo de trabajo (se ve un poco pequeño, pero si vas a la parte de abajo encontrarás una herramienta lupa para aumentar y otra para desplazarte). También puedes descargar el flujo de trabajo [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/sierra_nevada_shannon_QGIS_R.drawio.zip) (se abre con [esta](https://www.diagrams.net/) aplicación).
+Para ello seguiremos los pasos que se muestran en el siguiente flujo de trabajo (se ve un poco pequeño, pero si vas a la parte de abajo encontrarás una herramienta lupa para aumentar y otra para desplazarte). También puedes descargar el flujo de trabajo [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/presentacion/sierra_nevada_shannon_QGIS_R.drawio.zip) (se abre con [esta](https://www.diagrams.net/) aplicación). Se lee de abajo a arriba.
 
-<iframe frameborder="0" style="width:100%;height:2815px;" src="https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&layers=1&nav=1&title=sierra_nevada_shannon_QGIS_R.drawio#R7V3rc%2BK2Fv9rmGnvTBi%2FbT4m5NHt3d5ul73dbr9khC1AXWNT2yShf30lWfJLApxgYxPobIkt%2BXl%2BOk%2BdIw%2F08fLlIQKrxS%2BhB%2F2BpngvA%2F12oGmmgn%2FI%2Fibd1yyNtcwj5KVthYYJ%2BgemjSpvXSMPxqwtbUrC0E%2FQqtzohkEA3aTUBqIofC4fNgt9r9SwAnNYegzSMHGBD4XDviIvWaStjmbn7T9BNF%2FwO6vWKO2ZAvf7PArXAbvfQNPvzXvjnl1wCfi12H3jBfDC50KTfjfQx1EYJunW8mUMfULaMtnut%2FRmzx3BIKlzwld94v%2FuzaI%2FN5vw%2B%2Birc2O%2BGFcWe80n4K8hfw%2F6tMmGU4i%2BIyRXUQf6zfMCJXCyAi7pfcZDArctkqXPumdhkDCQHbwb4gNRQsaGoZBe5Pvj0A8jemXdA9CZubg9TqLwOyz0WK4DpzPcI74le%2FEnGCXwpdDE3voBhkuYRBt8CO9VbSM9h43RK7b7nONtqIwQiwLWpq0NTTbS2CibZ1fPKY03GLFfQ3irXcJXKD2bQcuVUtqzR1NFEaFqhPCmXSa8OnJ0gfamIqG9OrKUw0mvPc4c%2F3ljJT%2F%2F%2Fdufjj25%2Bfb5H45%2BgdDQwyKB7YZRsgjnYQD8u7z1JoeCkio75mMYrhgAf8Ek2TAEwDoJy%2FBgKkabP8j5eEix3W%2FFvtsXdvF0b8P2CrDau1CJw3Xkwh1vzQZyAqI5THYcx7AgJNmJcQR9kKCnshRtHCtzP5eAeJXqhRl6IQjdrGCE8N0hGeD4FliRwE95UxEU4KN5gLddTE3al8loQnoPxIsM8phwRzD%2FQuHWcQNaUsXC%2F96i5Ry%2FoY%2Bm%2BBe4hDKPHorwk4WEDPfPcPoYwwgzzzB%2Bmr8C2Fewm%2BaoQ6Ms6mxLlHW6JrKb0Raz2WYX3FYRhm%2FnGrsm1xj9YhtRq9%2FC2MUvAXBr6K4jTAkX4dtqygTBKCLN%2F4NPwAOiElqEy%2Bk6fpUCamxAW%2BaQK0o2oC3LFAa0pQ9NSxzTfOg3T90auptYhqv6NMjsWzDlV1D20Ea3q8xu2CKzq9z8LCnX1nQrly27SIOF7IpsYrokCPifyVsHc8r4heEkG21lGlUNyiAMyDUSKiNIpw9nCduchkkSLtlOxChBhQuGYuZTmb9AngcDmY2k0P%2Bkg3r3ANk%2F1Bl0jiKOaglwrYlpXb%2Fg9ircXsog9QRGo4Y7x2FkcOzDLsa6j8t1JcUyASig1pVK930frGKUY%2BsukO99BJtwnfDb8L39SqIhXNQyLlwsFQWjIhOMmtMWMk67DFYFwYvC1RdutZCGVYiIkXv3hEkdN8WF9KKUVOYN%2FocpOib%2BjYnfZoz31Xwf%2FyOHR8k4DDCf4hFErgFBnDzDOKk%2FFLIRvn8o7AO7NevLGAlY3xEnBcFWZapMJB6M8F5LevdofxVKXAkdBSQeuCyAhC3zC0DbJKouBm5045h4qSJeYTC%2FALbVNLFFwI7KYC27AheNt82Z4JDuVYBaW9CL3oTaKPY9ZtRs2B%2Bu%2BlqDxxDgIQbyWAyMXzB6pfZrDTIxEG4PRxe8DlV%2BreFVI0R4UX5tKD9D5NTjen%2BmGIM5H%2BVXP1DTmVkqBmKo8jsfYfrqYFrnrp8YT8E8Nr5wVW99P0sMrlzU31HUn2S%2B%2F7jqzxLjNM1i32NGzYZ9f9WfJUZldPWc1N8rMOqJ%2BrPEaAq%2B%2FVi%2FINZb9ScGWC7q7yjqzxGzg44b%2BrTEQM35qD%2BjNlxdxWUkadc68SXELMULRj0JfUpKFIi%2FfuGq3gY%2FrUuuS0fqT1VE6I%2Fs%2FomxmvMxVPuf9WKLgRmSjHhG7t%2FJJb7YYkCFyBrnglhf3T9bjLEMNMvn%2Ba8l1Ky%2F1yHvuIopca7xAebqJe%2FDW3Py99escAMf4UH8A9O0QlLHgSHSlHVAuv4J6Z8Y%2BtB1Ed4hZR3p%2FfH7pI%2BQXlEYQ%2BXKmz0VH9vzrSnS7KqSQtWGk3z3KTue%2Fds40Dzd%2B8ilhC8oKVQS4r1v7GJkO68jJDu8jLCB8sMDC6nqVlLZTBX1pJLK6aRa9Phkd7Rekd0Wnb4PS2JSgwi3jie%2Fk5vi%2F397%2BDARhViXJWu2UJalS8qyjGNWhdiirXAaFc8Hjn2trsjpV%2FGmY120Sl2IR3XFm9kriG3RSx6DVWbWrdZBEhKjDhvm%2BNenhbrlsl163MPNh%2FtdbgDwfeiH8wgsB%2BWy%2BFJfsTh%2Bn8AkJfYMuRoWYA2IXyNaxYpXrW7Fa2sFr1xvFpH8PEmN%2BK8PE4n5gF83KVNVWIaAEAW5wL9mHUvsgqVcDrGLUHDTyjEpEnYijB3nALUAg64LqwzojgiDrO5Raw2FTjRcY2LMqbs4h9OZppIvYtMF1Zsls%2Fy9%2BqUtHHFO8e4lM4aJ1pj89KnvVrDatRXsiC5FJqnvPk0e8B%2Bsv3TRpX%2BHAluVCGynJYEt5TBVnBR4Zy6J%2FLX5Cnd7JZDaK0HPn1vujpcs0zTOOI3yEGPagnhDBIH368Pn7UdOeYNqFsKWU%2BEw4UR8FNoe2exUHCp8ITm%2BEtpIjF3K1rDhbY0jqnUSuqww0lt8zrczn1WX%2BdTOQpDyx%2BlkCa2CrDSssrQcKqr9OolJOwt%2B5oFIqlZdMdpZVHPnc0vFaFWqLdOAwBPEj96oVHXeiVQ1zPLSYJmFV5Sp0mU925KpYkXKu5epkhjrKchUXlHaLVQFEetYRRGrDEfZ%2FhYJKxWpHHy1CH02EDoDn6%2B10hz49NTrKAKbwgHMucqv%2FIk0FCSGyZ3LbD1aQysOpTpnmGwljq2nGM5o9yl4I33yLRew%2BFIn%2BVPqZUqkyLDzdj6%2BZWx5luxaKXjCtShXZcgcIBPP1NGTTEzIeahx1jjMQhEnJq5jNA%2BySJNoJ7g0vaTgBJK38aX2BFgSqyCYxuQPfg42jeGTU9xwuQ6QBzzxTBjwg%2F5ep1kvyWCsD67VYQ3DiGQy1bCKCEXfhVWkaxWJpevWUKyKcFTRMHLaGlVa1x7MIULgyAaVUlNwaEavBAf%2FXsJJQvx2uDgK%2B%2BGy%2BgWXWKF295JEgMhKhSSCAlH0UVkNkghN1%2BnsNG0oT0uTiWXSuIIRVRnpBDZ%2BIMn1BBksyG7ylDJxKxPUvRLBlc8emJYY7bMNLpWLIjhvbR5yMcf7LDi0bqyIL%2F3aEw7VT1lnHgEuntHdE7g0MbQ3RaEoll6TX139pEshqVprRE7pzlCrzEtkn28qBtE0UVDpbc0M6p0E0bof907dcd8vh1ETa%2F3GwHfXPlX%2FwWCsDW7IDDsKPPSEvHUonyIseYarkJyLN8mwxOQMo93%2BoWA3TH77WNdzq7qBo11uYLwCQWlo8goNN82AIy8azafgB4V6ypiiinTrR7JJLqvQso8ZWCJ%2Fk56%2BDIMwphKhdEheGaLIKkNK32YzMXz4J%2F20WLbH4TQpoLjllmyTRzIJgCYeBfuOVbNj%2BRB%2F02W0%2FDLpqMl6MhPUzIxQMzUzzZLlmTeWrE%2BT259mboGazAY1uRXKb52CmN2a24u4oSiWST8VzKSdygvSotLdjPdJk02bCm%2BWiuE6tMu6MrLlXGwSaZ0fSS1Lfp1N3pFamLwjFd1ZZ2pT8k4mxLf0UjKynnnhKarQ0t0M32JjedSx44ThmfFYylI9NOIzDcc1o22K00sjVWbE563Na8d3n8q%2FU%2Bnt1479crP5c0sqAZFUkVSEvS0T9l8eg%2FXyESvUx3j1iNVivZDkAYZnM%2BzklNnJMSQ%2BsSQDpj1DUztPVtLrslK%2FAoySLxQ1ZGge077UtZO0LyUa%2FGJgXgzMi4F5SPRlVJmb74eBeZ5RYr3uPE7fDEzZSoPNGZinYl0aitYz69I4zzCmXjd8b%2FQrjKmL4fv%2FBygaMDOBTG1KZjCxMfFEM1FG6XQouY2LLcwwtSdJ1811IJ73w7bclx%2FbNT631FP0SSmqFaU4knxS8%2BhK0TjPJDajbtSFZVH2hZmN7VGXrR5WHb0osGI1EvO4BPF%2B3VnTNO06YOOY1ZolVZHkMaiGI%2BPG9hTrec6Lcxbbz4v9Ctvw55aHbT6hQTrH54dzjey0qf2cNDpibMn07LMWVFVJveDx1eB55vgZdX1Do1%2B%2BobHdN7yowUPUoGb3QA2eZ5zGqO1f9iubzxD9y8l6yXTgfz4y7SeprgDzCM5B4BGXkk5UCOUXR5m3EC5lnGhqrqBZDUnC29E1q3me0SKjbtJb8wWEh3GzbIH7djTrZAGCIAxOWYXqmj20qzrUVES248WKR1Gg%2FCPIZ8ZyZt2Yjtmv%2FGpTjOlc0%2FiqCjwapy0WJyJBOcJ4CweV8gFkZYuVoG5azkLuReK%2Bt4GHXMnyDDS0m7Nu6SY19PQSRvmiD1K9LJybqVvipPVcCRuGIdjUlmTC5vhquJuVVzuXCXVTgvhXyPsiE8SUoBLDV6A85sKobZduGFweZgxk6yIDyZZ0a0%2BhnmdqKueJ%2FczTr7U7%2BXPvWFSS8MsM%2BXWWH3qOMHvsXH9op3tpKiehtKrFUqojmRA5vtYSF7YUPf%2FUFqHRuRjBKAKPAXwCHhjGi1WtFI8OpWcj8KnCIphX6siUBPJMe6hqR5Sb0m9lvyofVJ4OuiMJNDNJB5quGwQL6D9BsoKp0DPYkibqEP%2B12PXMaEU6jfQ5aKePxTeMrkjOKQrmaX8QRkvgZ4eQBVav2JqqpJstq1rqRlhNBEkhRbXYmUQgiGf4ovzyQZ7e%2BhxGXvnuxdOnwP0%2Bp0roqkJTjTj5jJYaibbybbNAWQ%2FFKx8wqqLAR4Ubz%2FwQJMUH2uvtl3JNDXRw7PzEWVZXNSFuYPDy0NI3fyQfd2piGeGdq0gW2LWEW38waNzo1LjBnXttMvUnkZ1tqT7J18zPxgPgM%2BtdgPHpow%2F%2FCG5nSvw8%2Fssef3Dc%2BO7qpGLYbzf4rboGP180uScGv%2BTL1AXBVbYKH%2BlK6Klt%2BI55CJsxVaOQU6moX%2Fj3k5rmoi%2Ffru7uRt9%2B1sDE2Pz3a%2Fzx%2B68frkT1Iv3GVVeL0qtVINQmgDCVsp4XQZB9TqQJk1yKgahVPr93APgXibg2oZ9Fr2Cgt4SBVJtop6RN6sYbispF%2BtaSSKz0uM6S%2FHY99a7vfQPypVLyRlTGV%2FQFvgVaxbCoKXbxFVZBHv00LSG9B%2BJFBjnz875QuHXiWy0BoRD%2Fe4uWc%2FyGPpriX%2BASyjx6KMJPFhIy3D%2FD6WMMI8w4w%2Fhp3lIgyVKqbo0tMd14eXLTTo3cdOvadjMstcRvQ0Ub7eE5%2BOY15Xdx1F7O4x%2Bd7QnriTl%2BtzB28UuQCG5hCfkEMwadL9VJRAkT%2B1pVhgqfhO9vjNWSFEVakviq3RZriFaz9Kt7RzUHmqB1Vg7HCO1wGVCUQRLDV3VaIrSYIff57vbD9S%2BnT2rDKBtXjiJ%2BfUn2oYLWSM3j26dhXL1dpnNZvd9V7yxze%2BdzF3iBy%2FAweIzPykfXR9UEbEsXuKcpF33AlhfI%2BwoLC%2Bh3%2FwI%3D"></iframe>
+<iframe frameborder="0" style="width:100%;height:2116px;" src="https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=sierra_nevada_shannon_QGIS_R.drawio#R7V1bk5s4Fv41rprZqu4CJHF57Fuy2c3WZKZnJpt9cclGttkA8gjcbe%2BvXwkkbpLdpNsXHOelY46EEOfTueqIjMBdsn7P8HLxLxqSeORY4XoE7keOAyyX%2FxWETUlwfOSUlDmLwpJm1YTH6H%2BkJNqKuopCkklaScopjfNo2SZOaZqSad6iYcboc7vbjMZhi7DEc9KahiA8TnFMtG6fozBflFTf8Wr630k0X6gn225Qtkzw9Ouc0VUqnzdywDv0Dr6TAyZYjSWfmy1wSJ8bJPAwAneM0rz8lazvSCx422bbuy2t1bwZSfM%2BN3wGj%2FGf4Yz9Z7OhX4PP%2Fi1awytXvuYTjldEvUcx23yjOFS8IxGj2CNw%2B7yIcvK4xFPR%2BszXBKct8iSWzTOa5hJkn19S3jHKxdqAlmiN4viOxpQVI4MQE3825fQsZ%2FQrabS4U59MZrxFf0v54k%2BE5WTdIMm3fk9oQnK24V1UqwMlBHKNXvnl5XONNwSyy6KJNVTrTK6xeTV2zWf%2BQ7L6W9juHpbtHT7PZsSdGvkcesHEsnSg9sJ24LfZbge%2BpXMemjgfuNaBWG9DjdMk5BpBXlKWL%2Bicpjh%2BqKm3NRYFr6o%2BHyldSgT%2BS%2FJ8IyHAq5zuxIeso%2FzfYrRrJK%2B%2ByLHF7%2Ft182IjL7ZCktEVm5Jdqw1JvYrZnOS7eCNHFAzZCTEjMc6jp7YK3T9U%2Fimg4uxlmwY44vJLs62Gp7hS%2BJwWYtAXYndYEIMzhvj1cClBexEud2ASqaxAbbc%2BJEuOAGacSqcrxnkxjfhzHTfm73U74XR3nhfMKimRIjCCw1%2Fe%2F7a950QRbKRIfNITrZt2I%2B8V1bSuWV3QZLLKvsmkevuyiJ5YcC2bGOgWEbm6QVS0vSNaeacXZA77Cp8dDEv40Il1JXTb2vLasr1vNIqi8RNhEecIYW9GUhmzl9WoMywkdfe%2FVqNdrZbgOMb71af%2Bd6JPQQA62tTWtaln0KbeobSprfHnu9emznlqU5WmOi1UDeXqu03lal0H1fUW3bpnZdobSGTtG8ji1hvG8KbRYUmjNM8aI38ShIb0o25ax4ZOc1n0uQNBf%2Fct0A9238J%2FlDPfNkCwZZbVi5bIyPt2Tt%2BFW%2BZSjVWCp41VSEiFzBv024WGa0FfP2PvovE2PyPQ%2FIybLJqnRbTGfQpLt%2FlTHOJWKCfeJjb6BjgRFj6dZOIfPg%2FHCgn%2FI5wVa7rCIRvdgdHN%2FXRlcl9Iqrr%2BtRJ3kSwvutvXPVwdyn2EHn6O4Ov34ec4HR0CgKsCyYar49u6q%2BMfam05p45Gzig5Z%2FVUHw4clPpQe2BnCfHr4VIovAzXsHKpat4Nbf%2BwzhkWupK%2FzMSkhguNjXMWTTgOmVLhrUSe4GFhEpaEFYZjStPCKOyKSjVtWylWMUuTujUp6kGpYK%2BtgpGrZ%2B48qLRyUwXX1P1DHlymhPbN%2Bzj%2BoCQUnLPNPAJcAAwKLkdP000iqqulFkDfuFEvLuVQzl70FPCvnc4eg%2BsYNhkcXVGBQ%2B25g5OkxU6%2F7v2%2B635YYaOad2Pd3%2BFYxHHC%2FKejO2d0eyMGScPoKQpX1Lzd14oPl1Tcy3%2BKZcnZWVy%2BGCVq3sPjrx%2F7xm%2FdYDDYFQxmS5y2Fqj714oW8XBZKyNel80n%2BCeriJo5Xy3jr5%2FFTzGsJVbR1QwnUbwpb09oSrNCL7S6ZMVKEx2s5bp%2Brppgq%2BwOcRD5n7JorLpSoKICVk65F7%2FFlJCAEfG18FJfu%2BqrFvqrhnHqYcq1U7VUjiiqXFFUOpuo5X%2FWxJYPipQXimo%2FFElPFClfVD26BLF6tPIaOaGpnEV7oZ4FvdAagmIXl5UGECSvIDXerFTGfXhXNVVsq2UZCZ1d9yz8SzXOpm4o%2FUzVUCrwqrH0LFWjVOVbWgs2ypZ5YxZdaIvLCt8msb3qZD9teVYyVorUAF35ys4p%2B%2Bip%2FaCGfQxskytfU%2FdvI8%2B52On1NhL0zY2AYQXbat6tCs7KWBkMSUfZeyZl%2F%2Fs4XSVjblbH2XIsjGO%2FzOQb%2FM%2F9yFOnztOHhtDYUNRyOH%2FTuUxZ6lsECIaVZ1Tz3r%2B%2FeXw3Ezhn6WYaDPkPP%2FOHn%2FnDz3xTdVJnu34YfuZlpoxB302dofmZ%2BqbOPv3Ms3EyoeUMzMmEl5nUBH2T%2BXBYSU2gJ%2FP%2FSCM2kn6C2Og0eIbcm3gqPMeg3BwVj5lyR5OKf2kimm5vUv2%2Bn3bXw%2Fx8WB90y3mJIdlGu2MbTUcDj24b4WWWt8G%2BORhVuTgQkYbbczBbA60%2B5lETRS0vM05w1sOG9vRRT52%2F8VH3VJJtGaobbOib5PFwBvYyd8uVkL0sjcPK4qh5m7M4n6JRufMX07kjLg5p%2F%2FwyTQK31H8O2Q7atuFE4PEN4WVW%2FsG%2BQSIcVpAItweJPwzh2wyh4w3AEF5mygb2jjSHVeUH9UjzcZVIK%2Fi3j9L%2BGc5e4Dkjc5yGIrgsdi60wxlH3MjQhoJnWrirWVhoKIc7uoVFl5k9gn1L4vZ%2FyPBtMq2XxB3Kwj4ucJrS9JwNKXC8a69rSZGli5060HgUM4pO8uWnk4sc6pvdQcOqvkZ6duemyLfaOCzyts0DjJWIiI8MOsjaIj2tEgHTscZOgrc86CKeUxjdNIzEjq7xEE0ttq2H9LDRCeHA7LTJ2r2VqRWB2sANMIRQ86pdw%2BbN8U2we5n6oG%2BVEELD0gd6lVAl7B0YswVeip%2BiliOOSUznDCecacvGxxJabY2vKLwoIdGaqM%2BYHuNAB1TvVwmPB3ThUbsnxzGkl1mqquThZcHxhiU4SBOch3X10TZc2q4lmUWxwbZp1uqZcfHY%2BZ2hnWFlyzQP12B1j1DZvmFD5PgWy%2FS13m7EX%2FohY64Xx1lEGMPjlDzhEF9ni2WvUo8Tas%2B9wGfb17Ab8wfIkMZD3rXtHFFvuq%2FYr2wXhprrQndUg1bu6MgBAAosSPxE8miKtZbRlnpRX8StzaZnySvRCMt5FI0xV9%2BEXYni0yidl%2B0pZQmOqy4cw%2FwKx9E8LZunHOfieHqjOeJmIs0btarNxpzhNJvxQdXwaV3n%2BkxZ2H568%2Fb6c91XHZ46IriXvHRErlX9Rg3OhlG2jLHkapTGUePBs5jivDmhF6P8VtEpjMLx9pClV8B%2F5iILrM5HlqDBxbEtoMsqPJis6l86bYE2HAD27nE6qPNVPdto%2BwyK81B2T32a7MJcf%2BB1vz12ciD0GOyJcGeY61zucmSlozHmFhRYpbvxfaPTyWt4UFda5k%2BCHA4g3ddvqK22Q3ghONlKQhRK%2BjdCbc8%2FDEa%2Ff7l6eAi%2B%2FMPBj3Dzz8%2FZx6%2B%2FfLjSLcuv7z88ahgIf6fNOek43UuvCdwKLnBXLr6RDUkUhmWwTbj%2FhifFUMJJkd9S5OOi2xG6F2OJczBGEOwuCvY%2BUECoLSu2LivugXIYRhB0i%2FLbd46Aa3WCIseQhDX9NyivwGAkT%2FHUbY3zO%2BDh%2Fw%3D%3D"></iframe>
 
-La ejecución del anterior flujo de trabajo se realiza usando R. Para ello iremos ejecutando secuencialmente las líneas del siguiente bloque de código:
+La ejecución del anterior flujo de trabajo se realiza usando R. R es un lenguaje de programación muy potente. En esta práctica haremos una especie de "bautismo" en el uso de esta herramienta. Al principio te resultará complicado, pero poco a poco te irás familiarizando y acabará gustándote. Es altamente probalbe que uses R tanto en cursos superiores del grado como en tu actividad profesional futura (sea cual sea). 
+
+Para maximizar la potencia de R usamos un interfaz gráfico que nos facilita las cosas. Se llama RStudio. Tienes docenas de vídeos en youtube sobre Rstudio. Te recomiendo que mires alguno antes de hacer la práctica.
+
+Para generar el mapa del índice de Shannon de Sierra Nevada deberás de ir dando los siguientes pasos: 
+
+1. Abre Rstudio
+2. Dale al botón archivo y crear nuevo archivo de R.
+3. Guarda el archivo de R en tu directorio de trabajo. Ahora iremos pegando en ese archivo las líneas de código siguientes:
+4. Primero establecemos el directorio de trabajo. Sustituye lo que hay entre comillas del código que hay abajo por tu ruta. Para acceder a la ruta, usa tu explorador de archivos, ponte sobre la barra de navegación, botón derecho y copiar ruta en modo texto. Ten en cuenta que en windows, cuando copies la ruta de la carpeta, pondrá las barras hacia la izquierda (así: \\). Tienes que cambiarlas a mano y ponerlas hacia la derehca (así: /)
 
 ```R
 # Este script calcula el Índice Shannon de Sierra Nevada
-#a una escala de 250 m usando la información existente en GBIF
+#usando un mapa de vegetación y la información existente en GBIF
 
 ## Establece directorio de trabajo. No olvides cambiarlo por el tuyo.
 setwd("//cifs/bv2bogaf/Documents/shannon")
+```
 
-## Carga paquetes que necesitamos
+5. Copia el siguiente código. Su función es instalar en R una serie de funciones que necesitamos para generar el índice de Shannon. Una vez instalados (con la función *install.packages*), los cargamos en la memoria del ordenador (con la función *library(nombre del paquete)*).
+
+```R
+#Carga paquetes que necesitamos
 install.packages("rgdal")
 library(rgdal)
-
 install.packages("sqldf")
 library(sqldf)
+```
+6. Ahora importamos la capa que contiene los puntos de presencia de especies descargados de GBIF. También importamos la capa con la delimitación de las comunidades ecológicas.
+
+```R
 
 ## Importa la capa con las ocurrencias de GBIF
 ocurrencias<-readOGR(dsn=".", layer="ocurrencias_sierra_nevada_23030", verbose = FALSE)
 
-## Importa la capa con la malla de 250 m
-grid250<-readOGR(dsn=".",layer="grid_250", verbose = FALSE)
+## Importa la capa con las comunidades ecológicas
+comunidades<-readOGR(dsn=".",layer="vegetacion_snevada_23030", verbose = FALSE)
+```
 
-## Unión espacial: asigna a cada punto el código de la cuadrícula en la que se encuentra.
-ocurrencias$id_250 <- over(ocurrencias, grid250)$id
+7. A continuación asignamos a cada punto de presencia de especies el código de la comunidad ecológica en la que se encuentra. Usamos una función llamada *over*.
 
+```R
+## Unión espacial: asigna a cada punto el código de la comunidad en la que se encuentra.
+ocurrencias$id_com <- over(ocurrencias, comunidades)$id
+```
+8. El siguiente paso implica extraer la tabla de atributos del objeto que hemos creado. Hacemos esto porque R necesita "eliminar" la parte geográfica para poder hacer operaciones con la tabla.
+```R
 ## Extraer la "tabla de atributos" para hacer los cálculos del índice de Shannon
 bio<-ocurrencias@data
+```
+9. Los siguientes pasos consisten en realizar varias operaciones con la tabla anterior y construir otras tablas con las que calcular el índice de Shannon.
 
+```R
 ## Calcular el índice de Shannon
 
-### Calcular el número de individuos por especie y por cuadrícula (num_ind_sp_cuad)
-T_num_ind_sp_cuad<-sqldf("SELECT id_250, scientific,  count(scientific) num_ind_sp_cuad  FROM bio GROUP BY id_250, scientific")
+### Calcular el número de individuos por especie y por comunidad (num_ind_sp_com)
+T_num_ind_sp_com<-sqldf("SELECT id_com, scientific,  count(scientific) num_ind_sp_com  FROM bio GROUP BY id_com, scientific")
 
-### Calcular el número total de individuos por cuadrícula.
-T_num_ind_cuad<-sqldf("SELECT id_250, sum(num_ind_sp_cuad) num_ind_cuad FROM T_num_ind_sp_cuad GROUP BY id_250")
+### Calcular el número total de individuos por comunidad.
+T_num_ind_com<-sqldf("SELECT id_com, sum(num_ind_sp_com) num_ind_com FROM T_num_ind_sp_com GROUP BY id_com")
 
 ### Fusionar las tablas anteriores para calcular Pi
-T_num_ind_sp_cuad_mas_num_ind_cuad<-sqldf("SELECT id_250, scientific, num_ind_sp_cuad, num_ind_cuad FROM T_num_ind_sp_cuad LEFT JOIN T_num_ind_cuad USING(id_250)")
+T_num_ind_sp_com_mas_num_ind_com<-sqldf("SELECT id_com, scientific, num_ind_sp_com, num_ind_com FROM T_num_ind_sp_com LEFT JOIN T_num_ind_com USING(id_com)")
 
-### Calcular pi por especie y por cuadrícula.
-T_num_ind_sp_cuad_mas_num_ind_cuad<-sqldf("SELECT id_250, scientific, num_ind_sp_cuad, num_ind_cuad, (num_ind_sp_cuad*1.0/num_ind_cuad) pi FROM T_num_ind_sp_cuad_mas_num_ind_cuad")
+### Calcular pi por especie y por comunidad.
+T_num_ind_sp_com_mas_num_ind_com<-sqldf("SELECT id_com, scientific, num_ind_sp_com, num_ind_com, (num_ind_sp_com*1.0/num_ind_com) pi FROM T_num_ind_sp_com_mas_num_ind_com")
 
-### Calcular el log2 pi por especie y por cuadrícula (log = ln). Log2(pi)=log(pi)/log(2)
-T_num_ind_sp_cuad_mas_num_ind_cuad<-sqldf("SELECT id_250, scientific, num_ind_sp_cuad, num_ind_cuad, pi, (log(pi)/log(2))*pi lnpi_pi FROM T_num_ind_sp_cuad_mas_num_ind_cuad")
+### Calcular el log2 pi por especie y por comunidad (log = ln). Log2(pi)=log(pi)/log(2)
+T_num_ind_sp_com_mas_num_ind_com<-sqldf("SELECT id_com, scientific, num_ind_sp_com, num_ind_com, pi, (log(pi)/log(2))*pi lnpi_pi FROM T_num_ind_sp_com_mas_num_ind_com")
 
-### Calcular H por cuadrícula
-T_Shannon<-sqldf("SELECT id_250, sum(lnpi_pi)*-1 H FROM T_num_ind_sp_cuad_mas_num_ind_cuad GROUP BY id_250")
+### Calcular H por comunidad
+T_Shannon<-sqldf("SELECT id_com, sum(lnpi_pi)*-1 H FROM T_num_ind_sp_com_mas_num_ind_com GROUP BY id_com")
 
-## Fusionar la tabla que tiene el índice de Shannon con la malla de cuadrículas.
-grid250<-merge(x = grid250, y = T_Shannon, by.x = "id", by.y = "id_250")
+```
+10.  El penúltimo paso consiste en fusionar la tabla que acabamos de crear con el mapa de comunidades ecológicas. 
 
+```R
+## Fusionar la tabla que tiene el índice de Shannon con el mapa de comunidades.
+comunidades<-merge(x = comunidades, y = T_Shannon, by.x = "id", by.y = "id_com")
+```
+11.  Por último exportamos la capa obtenida a un fichero de formas fácilmente visualizable en QGIS.
+
+```R
 ## Exportar la capa resultante a un shapefile.
-writeOGR(grid250, dsn=".", layer="Shannon_250_sierra_nevada_R", driver="ESRI Shapefile", overwrite=TRUE )
-
-
+writeOGR(comunidades, dsn=".", layer="Shannon_comunidades_sierra_nevada_R", driver="ESRI Shapefile", overwrite=TRUE )
 ```
 
 
 
-La siguiente presentación muestra paso a paso el flujo de trabajo. También puedes verla [aquí](https://prezi.com/view/gOJNmvizzKEsXVxEHe3I/) y descargarla [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/2_mapa_biodiversidad_sierra_nevada.exe) para Windows y aquí para [Mac](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/2_mapa_biodiversidad_sierra_nevada.zip). Y [aquí](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/presentacion/2_mapa_biodiversidad_sierra_nevada.pdf) la tienes en formato pdf.
+La siguiente presentación muestra paso a paso el flujo de trabajo. También puedes verla [aquí](https://prezi.com/view/gOJNmvizzKEsXVxEHe3I/). Ten en cuenta que la siguiente presentación contiene algunos pasos extra que no hemos visto aquí. Concretamente empieza antes, descargando los datos de presencia de especies directamente desde GBIF.
 
 
 
@@ -152,7 +180,7 @@ El siguiente mapa muestra el resultado obtenido en esta práctica. Se trata de u
 
 
 
-![shannon](https://github.com/aprendiendo-cosas/P_shannon_ecologia_ccaa/raw/2020-2021/imagenes/shannon_snev.png)
+![shannon](https://github.com/aprendiendo-cosas/P_shannon_ecologia_I_bio/raw/2022-2023/imagenes/shannon_snev.png)
 
 
 
@@ -168,32 +196,13 @@ En el mapa resultante se pueden identificar varios patrones de distribución esp
 
 + En caso afirmativo, ¿a qué puede deberse?
 
-  
+En el moodle deberás de subir un documento de texto contestando a las preguntas anteriores.
 
-## Vídeos de las sesiones
 
-Práctica completa descrita en un vídeo sin estudiantes:
+
+## Vídeos de la práctica sin estudiantes
+
+Este vídeo muestra el desarrollo de la práctica pero hay una diferencia respecto a lo que veremos en la sesión en vivo. En el vídeo el mapa de comunidades ecológicas se sustituye por un mapa de cuadrículas regulares de 250 m. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/6OOusJU4ljs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-
-
-Vídeo sesión 3. GM-1
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H9qRMmGU5kQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Vídeo sesión 3. GM-2
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3_sRRzKaNKw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Vídeo sesión 3. GM-3
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oIfE9FQVyBE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Vídeo sesión 3. GM-4
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/t8TjzvgswrA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Vídeo sesión 3. GM-5
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H-aJZ0CekXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
